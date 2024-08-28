@@ -1,0 +1,22 @@
+---
+docker:
+  registry: docker
+  
+ruleset:
+  - docker:
+      env:
+        - DOCKER_IMAGE_NAME: mongodb
+  - helm:
+      env:
+        - HELM_DESTINATION_FOLDER: 'helm-target'
+        - HELM_IMAGE_TAG_VALUES: image.tag
+        - HELM_REPO: https://arm.rnd.ki.sw.ericsson.se/artifactory/proj-adp-helm-dev-generic-local/cd/sandbox/dit
+        - HELM_REPO_API_TOKEN: AKCp5Zkxbnwu5eezdN5AaY7SbZUx1rwEPfdohB9mJ38Zt6BUap4H7e8smvxCGz6JGpWSWH3kJ
+        - HELM_VALUES: >-
+            image:repository=armdocker.rnd.ericsson.se/proj_openstack_tooling/dit_db
+            image:tag=3.6.2
+  - adp.artifacts:
+      env:
+        - CHART_NAME: dit-db
+        - CHART_VERSION: $(project::get_version ${RELEASE:-})
+        - CHART_REPO: https://arm.rnd.ki.sw.ericsson.se/artifactory/proj-adp-helm-dev-generic-local/cd/sandbox/dit/dit-db
